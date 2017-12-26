@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<!--允许 JDBC 支持自动生成主键 -->
+		<!-- <setting name="useGeneratedKeys" value="false" /> -->
+		<!--是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 
+			的类似映射。 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="logPrefix" value="dao."/>
+	</settings>
+	<!-- 配置mybatis的环境信息，与spring整合，该信息由sprinmg来管理 -->
+	<environments default="development">
+		<environment id="development">
+			<!-- 配置JDBC事务控制，由mybatis进行管理 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 配置数据源，采用mybatis连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url"
+						  value="jdbc:mysql://localhost:3306/saas?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
+				<property name="username" value="root"/>
+				<property name="password" value="iflytek!"/>
+				<property name="poolMaximumActiveConnections" value="20"/>
+				<property name="poolMaximumIdleConnections" value="10"/>
+				<property name="poolPingQuery" value="select now()"/>
+				<property name="poolPingEnabled" value="true"/>
+				<property name="poolPingConnectionsNotUsedFor" value="600000"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="mapper/ApplyMapper.xml"></mapper>
+	</mappers>
+</configuration> 
