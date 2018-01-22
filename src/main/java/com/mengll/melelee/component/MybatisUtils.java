@@ -16,15 +16,20 @@ import java.io.IOException;
  * @create 2017-12-26 19:25
  **/
 public class MybatisUtils {
-	private static SqlSessionFactory factory;
+	private MybatisUtils(){};
+	private static SqlSessionFactory factory = null;
 	private static Logger logger= LoggerFactory.getLogger(MybatisUtils.class);
+
 	public static SqlSession getSession(){
+
 		if (factory==null) {
-			try {
-				factory = new SqlSessionFactoryBuilder()
-						.build(Resources.getResourceAsReader("db/SqlMapConfig.xml"));
-			} catch (IOException e) {
-				logger.error("创建连接池失败：",e);
+			synchronized (MybatisUtils.class){
+				try {
+					factory = new SqlSessionFactoryBuilder()
+							.build(Resources.getResourceAsReader("db/SqlMapConfig.xml"));
+				} catch (IOException e) {
+					logger.error("创建连接池失败：",e);
+				}
 			}
 		}
 		return factory.openSession();

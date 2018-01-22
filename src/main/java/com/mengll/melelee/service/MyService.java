@@ -1,12 +1,11 @@
 package com.mengll.melelee.service;
 
 import com.mengll.melelee.DAO.TbApplyConsultationDAO;
+import com.mengll.melelee.DAO.TestDao;
 import com.mengll.melelee.DTO.TbApplyConsultationEntity;
-import com.mengll.melelee.component.MybatisUtils;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service层
@@ -21,15 +20,26 @@ public class MyService {
 		return "success";
 	}
 
+	@Autowired
+	private TbApplyConsultationDAO tbApplyConsultationDAO;
+	@Autowired
+	private TestDao testDao;
+
 	public TbApplyConsultationEntity getInfoFromDB(long id) {
-		SqlSession sqlSession = MybatisUtils.getSession();
-		TbApplyConsultationDAO tbApplyConsultationDAO = sqlSession.getMapper(TbApplyConsultationDAO.class);
 		TbApplyConsultationEntity tbApplyConsultationEntity = tbApplyConsultationDAO.getInfoById(id);
 		return tbApplyConsultationEntity;
 	}
 
-	public static void main(String[] args) {
-		long a = 1502781641000L;
-		System.out.println(new Date(a));
+	public void saveInfo(TbApplyConsultationEntity tbApplyConsultationEntity) {
+		tbApplyConsultationDAO.saveInfo(tbApplyConsultationEntity);
+		throw new RuntimeException("test");
+	}
+
+	@Transactional
+	public void saveTxt(String txt) {
+		testDao.saveTxt(txt);
+		if (txt.equals("txt")){
+			System.out.println(1/0);
+		}
 	}
 }

@@ -10,4 +10,5 @@ import com.mengll.melelee.DTO.TbApplyConsultationEntity;
  **/
 public interface TbApplyConsultationDAO {
 	public TbApplyConsultationEntity getInfoById(long id);
+	public void saveInfo(TbApplyConsultationEntity tbApplyConsultationEntity);
 }
