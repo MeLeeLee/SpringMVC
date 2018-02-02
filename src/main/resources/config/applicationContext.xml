@@ -68,19 +68,31 @@
 
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
 	<bean id="sqlSessionFactory"
-		  class="org.mybatis.spring.SqlSessionFactoryBean"
-		  p:dataSource-ref="dataSource"
-		  p:configLocation="classpath:config/db/SqlMapConfig.xml"
-		  p:mapperLocations="classpath:config/mapper/*.xml"/><!-- configLocation为mybatis属性 mapperLocations为所有mapper-->
+		  class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/db/SqlMapConfig.xml"></property>
+		<property name="mapperLocations" value="classpath:config/mapper/*Mapper.xml"></property>
+		<!--p:dataSource-ref="dataSource"-->
+		<!--p:configLocation="classpath:config/db/SqlMapConfig.xml"-->
+		<!--p:mapperLocations="classpath:config/mapper/TestMapper.xml"/>-->
+	</bean>
+
 
 	<!-- spring与mybatis整合配置，扫描所有dao -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-		  p:basePackage="com.mengll.melelee.DAO"
-		  p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.mengll.melelee.DAO"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<!--p:basePackage="com.mengll.melelee.DAO"-->
+		<!--p:sqlSessionFactoryBeanName="sqlSessionFactory"-->
+	</bean>
+
 	<!-- 对数据源进行事务管理 -->
 	<bean id="transactionManager"
-		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		  p:dataSource-ref="dataSource"/>
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
 	<!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!--<import resource="spring-mvc.xml"/>-->
+	<import resource="classpath:config/spring-quartz.xml"/>
 </beans>
