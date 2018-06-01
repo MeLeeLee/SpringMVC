@@ -5,6 +5,8 @@ import com.mengll.melelee.DAO.TestDao;
 import com.mengll.melelee.DTO.TbApplyConsultationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +37,7 @@ public class MyService {
 		throw new RuntimeException("test");
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED,readOnly = false,timeout = -1,isolation = Isolation.DEFAULT)
 	public void saveTxt(String txt) {
 		testDao.saveTxt(txt);
 		if (txt.equals("txt")){
